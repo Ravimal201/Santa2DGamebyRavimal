@@ -17,6 +17,7 @@
 .santa {
     height: 250px;
     margin-top: 450px;
+    margin-left: 250px;
     position: absolute;
 }
 
@@ -28,5 +29,4 @@
     background-image: url(resources/box.gif);
     background-size: contain;
     background-repeat: no-repeat;
-
 }
