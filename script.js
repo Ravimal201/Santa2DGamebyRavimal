@@ -52,7 +52,7 @@ function keyCheck(event) {
     var keyCode = event.which;
 
     if (keyCode == 13) {
-        
+
         jumpAnimationNumber = 0;
 
         if (walkAnimationNumber == 0) {
@@ -66,6 +66,7 @@ function keyCheck(event) {
         if (enemyAnimationId == 0) {
             enemyAnimationId = setInterval(enemyAnimation, 100);
         }
+
     }
 
     if (keyCode == 32) {
@@ -85,8 +86,14 @@ function moveBackground() {
 
     backgroundImagePositionX = backgroundImagePositionX - 10;
     document.getElementById("background").style.backgroundPositionX = backgroundImagePositionX + "px";
-    
+
     score = score + 10;
+
+    if (score >= 10000 && !victoryCreated) {
+        createVictory();
+        victoryCreated = true;
+        victoryAnimationId = setInterval(victoryAnimation, 100);
+    }
 
     document.getElementById("score").innerHTML = score;
 }
@@ -148,9 +155,6 @@ function createEnemy() {
     }
 }
 
-var enemyAnimationId = 0;
-var enemyCreateId = 0;
-
 function enemyAnimation() {
     for (var i = 0; i < 20; i++) {
         var enemy = document.getElementById("enemy" + i);
@@ -169,28 +173,67 @@ function enemyAnimation() {
                 clearInterval(moveBackgroundId);
                 moveBackgroundId = -1;
 
-                deathAnimationNumber = setInterval(deathAnimation,100);
+                deathAnimationNumber = setInterval(deathAnimation, 100);
             }
         }
     }
 }
 
-var deathImageNumber =1;
+
+var enemyAnimationId = 0;
+var enemyCreateId = 0;
+
+
+var deathImageNumber = 1;
 var deathAnimationNumber = 0;
 
 function deathAnimation() {
 
     deathImageNumber = deathImageNumber + 1;
 
-    if(deathImageNumber == 18) {
-        deathImageNumber =17;
+    if (deathImageNumber == 18) {
+        deathImageNumber = 17;
 
-        document.getElementById("end").style.visibility="visible";
-        document.getElementById("endScore").innerHTML = score; 
+        document.getElementById("end").style.visibility = "visible";
+        document.getElementById("endScore").innerHTML = score;
     }
-    
-    santa.src = "resources/dead (" + deathImageNumber +").png";
+
+    santa.src = "resources/dead (" + deathImageNumber + ").png";
 }
+
+
+var victoryMarginLeft = 1500;
+var victoryAnimationId = 0;
+var victoryCreated = false;
+
+function createVictory() {
+    var victory = document.createElement("div");
+    victory.className = "victory";
+    document.getElementById("background").appendChild(victory);
+    victory.style.marginLeft = victoryMarginLeft + "px";
+    victory.id = "victory";
+}
+
+function victoryAnimation() {
+    var victory = document.getElementById("victory");
+    var currentVictoryMarginLeft = getComputedStyle(victory).marginLeft;
+    var newVictoryMarginLeft = parseInt(currentVictoryMarginLeft) - 40;
+    victory.style.marginLeft = newVictoryMarginLeft + "px";
+
+    if (newVictoryMarginLeft <= 250) {
+        clearInterval(enemyAnimationId);
+        clearInterval(walkAnimationNumber);
+        walkAnimationNumber = -1;
+        clearInterval(jumpAnimationNumber);
+        jumpAnimationNumber = -1;
+        clearInterval(moveBackgroundId);
+        moveBackgroundId = -1;
+
+        document.getElementById("won").style.visibility = "visible";
+        document.getElementById("wonScore").innerHTML = score;
+    }
+}
+
 
 function reload() {
     location.reload();
