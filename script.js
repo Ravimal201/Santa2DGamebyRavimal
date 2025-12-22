@@ -37,6 +37,8 @@ function walkAnimation() {
 
 function walkAnimationStart() {
 
+    document.getElementById("start").style.visibility = "hidden";
+
     walkAnimationNumber = setInterval(walkAnimation, 110);
 
     clearInterval(idleAnimationNumber);
@@ -50,6 +52,7 @@ function keyCheck(event) {
     var keyCode = event.which;
 
     if (keyCode == 13) {
+        
         jumpAnimationNumber = 0;
 
         if (walkAnimationNumber == 0) {
@@ -181,8 +184,14 @@ function deathAnimation() {
 
     if(deathImageNumber == 18) {
         deathImageNumber =17;
+
+        document.getElementById("end").style.visibility="visible";
+        document.getElementById("endScore").innerHTML = score; 
     }
     
     santa.src = "resources/dead (" + deathImageNumber +").png";
 }
 
+function reload() {
+    location.reload();
+}
