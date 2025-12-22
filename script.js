@@ -71,21 +71,21 @@ function keyCheck(event) {
         }
 
     }
-
-
-
-
 }
 
 var backgroundImagePositionX = 0;
 var moveBackgroundId = 0;
 
+var score = 0;
 
 function moveBackground() {
 
     backgroundImagePositionX = backgroundImagePositionX - 10;
     document.getElementById("background").style.backgroundPositionX = backgroundImagePositionX + "px";
     
+    score = score + 10;
+
+    document.getElementById("score").innerHTML = score;
 }
 
 
@@ -156,7 +156,7 @@ function enemyAnimation() {
         enemy.style.marginLeft = newMarginLeft + "px";
 
         //logic for game over.
-        if (newMarginLeft >= 150 && newMarginLeft <= 350) {
+        if (newMarginLeft >= 180 && newMarginLeft <= 380) {
             if (santaMarginTop > 400) {
                 clearInterval(enemyAnimationId);
                 clearInterval(walkAnimationNumber);
@@ -185,3 +185,4 @@ function deathAnimation() {
     
     santa.src = "resources/dead (" + deathImageNumber +").png";
 }
+
